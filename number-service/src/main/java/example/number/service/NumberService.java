@@ -28,7 +28,7 @@ public class NumberService {
                         return Mono.just(new AbstractRSocket() {
                             @Override
                             public Flux<Payload> requestStream(Payload payload) {
-                                return Flux.range(1, Integer.MAX_VALUE)
+                                return Flux.range(1, 10_000)
                                         .doOnRequest(value -> {
                                             LOG.info("Received Request For: {}", value);
                                         })
