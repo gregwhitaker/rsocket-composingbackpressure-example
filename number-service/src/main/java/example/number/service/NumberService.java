@@ -29,6 +29,9 @@ public class NumberService {
                             @Override
                             public Flux<Payload> requestStream(Payload payload) {
                                 return Flux.range(1, Integer.MAX_VALUE)
+                                        .doOnRequest(value -> {
+                                            LOG.info("Received Request For: {}", value);
+                                        })
                                         .map(i -> {
                                             LOG.info("Sending: {}", i);
                                             return DefaultPayload.create(BigInteger.valueOf(i).toByteArray());

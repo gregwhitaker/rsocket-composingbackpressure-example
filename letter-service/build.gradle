@@ -3,7 +3,7 @@ plugins {
     id "application"
 }
 
-mainClassName = 'example.letter.service.SlowLetterService'
+mainClassName = 'example.letter.service.LetterService'
 sourceCompatibility = 1.8
 
 dependencies {

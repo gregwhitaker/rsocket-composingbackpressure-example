@@ -19,8 +19,8 @@ import reactor.core.publisher.Mono;
 
 import java.math.BigInteger;
 
-public class SlowLetterService {
-    private static final Logger LOG = LoggerFactory.getLogger(SlowLetterService.class);
+public class LetterService {
+    private static final Logger LOG = LoggerFactory.getLogger(LetterService.class);
 
     public static void main(String... args) throws Exception {
         // Connect to the Number Service
@@ -38,25 +38,29 @@ public class SlowLetterService {
                         return Mono.just(new AbstractRSocket() {
                             @Override
                             public Flux<Payload> requestStream(Payload payload) {
-                                // Call the number service and start retrieving numbers to compose with letters
-                                return rSocket.requestStream(DefaultPayload.create(Unpooled.EMPTY_BUFFER))
-                                        .map(numPayload -> {
-                                            // Get the payload into bytes so we can work with it
-                                            byte[] bytes = new byte[payload.data().readableBytes()];
-                                            payload.data().readBytes(bytes);
+                                return Flux.range(1, Integer.MAX_VALUE)
+                                        .doOnRequest(value -> {
+                                            LOG.info("Received Request For: {}", value);
+                                        })
+                                        .map(integer -> RandomStringUtils.randomAlphabetic(1))
+                                        .zipWith(rSocket.requestStream(DefaultPayload.create(Unpooled.EMPTY_BUFFER)))
+                                        .map(objects -> {
+                                            byte[] bytes = new byte[objects.getT2().data().readableBytes()];
+                                            objects.getT2().data().readBytes(bytes);
 
-                                            // Combine the number returned from the number service with a random alphabetic character
-                                            return DefaultPayload.create(RandomStringUtils.randomAlphabetic(1) + new BigInteger(bytes).intValue());
+                                            LOG.info("Sending: {}", objects.getT1() + new BigInteger(bytes).intValue());
+
+                                            return DefaultPayload.create(objects.getT1() + new BigInteger(bytes).intValue());
                                         });
                             }
                         });
                     }
                 })
-                .transport(TcpServerTransport.create(7000))
+                .transport(TcpServerTransport.create(7001))
                 .start()
                 .block();
 
-        LOG.info("RSocket server started on port: 7000");
+        LOG.info("RSocket server started on port: 7001");
 
         Thread.currentThread().join();
     }

@@ -1,6 +1,4 @@
 rootProject.name = 'rsocket-composingbackpressure-example'
 include 'number-service'
-include 'fast-letter-service'
-include 'slow-letter-service'
 include 'client'
-
+include 'letter-service'
