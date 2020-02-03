@@ -1,4 +1,28 @@
 # rsocket-composingbackpressure-example
+An example showing how backpressure composes between multiple microservices with [RSocket](http://rsocket.io).
+
+## Building the Example
+Run the following command to build the example:
+
+    ./gradlew clean build
+    
+## Running the Example
+Follow the steps below to run the example:
+
+1. Run the following command to start the `number-service`:
+
+        ./gradlew :number-service:run
+        
+2. In a new terminal, run the following command to start the `letter-service`:
+
+        ./gradlew :letter-service:run
+        
+3. In a new terminal, run the following command to start streaming data with the `client`:
+
+        ./gradlew :client:run
+
+## Bugs and Feedback
+For bugs, questions, and discussions please use the [Github Issues](https://github.com/gregwhitaker/rsocket-composingbackpressure-example/issues).
 
 ## License
 MIT License
