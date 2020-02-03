@@ -38,19 +38,20 @@ public class LetterService {
                         return Mono.just(new AbstractRSocket() {
                             @Override
                             public Flux<Payload> requestStream(Payload payload) {
-                                return Flux.range(1, Integer.MAX_VALUE)
+                                return rSocket.requestStream(DefaultPayload.create(Unpooled.EMPTY_BUFFER))
                                         .doOnRequest(value -> {
                                             LOG.info("Received Request For: {}", value);
                                         })
-                                        .map(integer -> RandomStringUtils.randomAlphabetic(1))
-                                        .zipWith(rSocket.requestStream(DefaultPayload.create(Unpooled.EMPTY_BUFFER)))
-                                        .map(objects -> {
-                                            byte[] bytes = new byte[objects.getT2().data().readableBytes()];
-                                            objects.getT2().data().readBytes(bytes);
+                                        .map(numPayload -> {
+                                            byte[] bytes = new byte[numPayload.data().readableBytes()];
+                                            numPayload.data().readBytes(bytes);
 
-                                            LOG.info("Sending: {}", objects.getT1() + new BigInteger(bytes).intValue());
-
-                                            return DefaultPayload.create(objects.getT1() + new BigInteger(bytes).intValue());
+                                            return new BigInteger(bytes).intValue();
+                                        })
+                                        .map(integer -> RandomStringUtils.randomAlphabetic(1) + integer)
+                                        .map(s -> {
+                                            LOG.info("Sending: {}", s);
+                                            return DefaultPayload.create(s);
                                         });
                             }
                         });
