@@ -38,8 +38,10 @@ public class FastLetterService {
                         return Mono.just(new AbstractRSocket() {
                             @Override
                             public Flux<Payload> requestStream(Payload payload) {
+                                // Call the number service and start retrieving numbers to compose with letters
                                 return rSocket.requestStream(DefaultPayload.create(Unpooled.EMPTY_BUFFER))
                                         .map(numPayload -> {
+                                            // Get the payload into bytes so we can work with it
                                             byte[] bytes = new byte[payload.data().readableBytes()];
                                             payload.data().readBytes(bytes);
 
