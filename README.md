@@ -1,8 +1,8 @@
 # rsocket-composingbackpressure-example
 An example showing how backpressure composes between multiple microservices with [RSocket](http://rsocket.io).
 
-In this example the `client` requests a stream from the `letter-service` and explicitly states that it can handle `8` items at a time.
-The letter-service then requests a stream of numbers from the `number-service` and propagates the 8 item demand from the client. The letter-service
+In this example the `client` requests a stream from the `letter-service` and explicitly states that it can handle `10` items at a time.
+The letter-service then requests a stream of numbers from the `number-service` and propagates the demand (backpressure) from the client. The letter-service
 combines the numbers with a random letter and streams them to the client.
 
 ## Building the Example
@@ -67,6 +67,8 @@ Follow the steps below to run the example:
         [reactor-tcp-nio-2] INFO example.number.service.NumberService - Sending: 9998
         [reactor-tcp-nio-2] INFO example.number.service.NumberService - Sending: 9999
         [reactor-tcp-nio-2] INFO example.number.service.NumberService - Sending: 10000
+        
+    **Note:** The `8` items comes from the `limitRate(10)` on the client. The limitRate algorithm proactively fills the buffer when it is 75% exhausted. That is why you are seeing it request 8 instead of 10.
         
 ## Bugs and Feedback
 For bugs, questions, and discussions please use the [Github Issues](https://github.com/gregwhitaker/rsocket-composingbackpressure-example/issues).
