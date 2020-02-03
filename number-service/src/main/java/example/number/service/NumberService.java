@@ -19,7 +19,7 @@ import java.math.BigInteger;
 public class NumberService {
     private static final Logger LOG = LoggerFactory.getLogger(NumberService.class);
 
-    public static void main(String... args) throws InterruptedException {
+    public static void main(String... args) throws Exception {
         RSocketFactory.receive()
                 .frameDecoder(PayloadDecoder.DEFAULT)
                 .acceptor(new SocketAcceptor() {
