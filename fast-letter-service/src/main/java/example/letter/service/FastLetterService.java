@@ -42,8 +42,8 @@ public class FastLetterService {
                                 return rSocket.requestStream(DefaultPayload.create(Unpooled.EMPTY_BUFFER))
                                         .map(numPayload -> {
                                             // Get the payload into bytes so we can work with it
-                                            byte[] bytes = new byte[payload.data().readableBytes()];
-                                            payload.data().readBytes(bytes);
+                                            byte[] bytes = new byte[numPayload.data().readableBytes()];
+                                            numPayload.data().readBytes(bytes);
 
                                             // Combine the number returned from the number service with a random alphabetic character
                                             return DefaultPayload.create(RandomStringUtils.randomAlphabetic(1) + new BigInteger(bytes).intValue());
