@@ -40,7 +40,7 @@ Follow the steps below to run the example:
         [reactor-tcp-nio-1] INFO example.client.Client - Received: G10000
         [reactor-tcp-nio-1] INFO example.client.Client - Done
         
-    Notice that in the `letter-service` terminal that the client is requesting `8` combinations at a time:
+    Notice in the `letter-service` terminal that the client is requesting `8` combinations at a time:
     
         [reactor-tcp-nio-1] INFO example.letter.service.LetterService - Sending: t9993
         [reactor-tcp-nio-1] INFO example.letter.service.LetterService - Sending: n9994
@@ -52,7 +52,7 @@ Follow the steps below to run the example:
         [reactor-tcp-nio-1] INFO example.letter.service.LetterService - Sending: O9999
         [reactor-tcp-nio-1] INFO example.letter.service.LetterService - Sending: G10000
         
-    Notice that in the `number-service` the client's demand of `8` combinations is propagated to the number service:
+    Notice in the `number-service` terminal the client's demand of `8` combinations is propagated to the number service:
     
         [reactor-tcp-nio-2] INFO example.number.service.NumberService - Sending: 9993
         [reactor-tcp-nio-2] INFO example.number.service.NumberService - Sending: 9994
