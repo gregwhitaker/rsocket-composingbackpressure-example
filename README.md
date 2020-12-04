@@ -1,4 +1,6 @@
 # rsocket-composingbackpressure-example
+![Build](https://github.com/gregwhitaker/rsocket-composingbackpressure-example/workflows/Build/badge.svg)
+
 An example showing how backpressure composes between multiple microservices with [RSocket](http://rsocket.io).
 
 In this example the `client` requests a stream from the `letter-service` and explicitly states that it can handle `10` items at a time.
